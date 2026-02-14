@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Bebas_Neue, Geist_Mono, Inter } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { Preloader } from "@/components/layout/preloader";
+import { PageTransition } from "@/components/layout/page-transition";
 import "./globals.css";
 
 const bebasNeue = Bebas_Neue({
@@ -33,8 +35,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${bebasNeue.variable} ${inter.variable} ${geistMono.variable} dark`}>
       <body className="antialiased">
+        <Preloader />
         <Navbar />
-        {children}
+        <PageTransition>{children}</PageTransition>
         <Footer />
       </body>
     </html>

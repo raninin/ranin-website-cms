@@ -37,6 +37,42 @@ const certifications = [
   },
 ];
 
+function CertRow({ reverse = false }: { reverse?: boolean }) {
+  const doubled = [...certifications, ...certifications];
+  return (
+    <div
+      className={`flex items-center gap-8 lg:gap-12 ${
+        reverse ? "animate-marquee-reverse" : "animate-marquee"
+      }`}
+    >
+      {doubled.map((cert, i) => (
+        <div
+          key={`${cert.title}-${i}`}
+          className="group flex shrink-0 items-center gap-4 border border-white/[0.04] bg-white/[0.02] px-6 py-4 transition-all duration-500 hover:border-ranin-accent/20 hover:bg-white/[0.06]"
+        >
+          <div className="relative flex h-12 w-12 shrink-0 items-center justify-center lg:h-14 lg:w-14">
+            <Image
+              src={cert.logo}
+              alt={`${cert.title} - ${cert.subtitle}`}
+              width={56}
+              height={56}
+              className="h-10 w-auto object-contain opacity-60 transition-all duration-500 group-hover:opacity-100 lg:h-12"
+            />
+          </div>
+          <div className="whitespace-nowrap">
+            <h3 className="font-display text-sm tracking-wider text-white lg:text-base">
+              {cert.title}
+            </h3>
+            <p className="text-[10px] uppercase tracking-widest text-ranin-steel transition-colors duration-300 group-hover:text-ranin-accent lg:text-[11px]">
+              {cert.subtitle}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function Certifications() {
   return (
     <section className="relative overflow-hidden bg-ranin-navy py-24 lg:py-32">
@@ -76,58 +112,28 @@ export function Certifications() {
             by the Kingdom&apos;s most trusted regulatory and industry bodies.
           </p>
         </div>
+      </div>
 
-        {/* Certification Cards */}
-        <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:mt-20 lg:grid-cols-6 lg:gap-6">
-          {certifications.map((cert, i) => (
-            <motion.div
-              key={cert.title}
-              className="group relative flex flex-col items-center border border-white/[0.06] bg-white/[0.02] p-6 text-center transition-all duration-500 hover:-translate-y-2 hover:border-ranin-accent/30 hover:bg-white/[0.06] lg:p-8"
-              initial={{ opacity: 0, y: 40, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{
-                delay: i * 0.1,
-                duration: 0.6,
-                type: "spring",
-                stiffness: 100,
-              }}
-            >
-              {/* Glow effect on hover */}
-              <div className="absolute inset-0 bg-gradient-to-b from-ranin-accent/0 via-ranin-accent/0 to-ranin-accent/0 transition-all duration-500 group-hover:from-ranin-accent/5 group-hover:via-transparent group-hover:to-transparent" />
+      {/* Marquee rows */}
+      <div className="relative mt-14 overflow-hidden py-4 lg:mt-20">
+        {/* Fade edges */}
+        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-20 bg-gradient-to-r from-ranin-navy to-transparent sm:w-32" />
+        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-20 bg-gradient-to-l from-ranin-navy to-transparent sm:w-32" />
 
-              {/* Logo */}
-              <div className="relative mb-5 flex h-20 w-full items-center justify-center lg:h-24">
-                <Image
-                  src={cert.logo}
-                  alt={`${cert.title} - ${cert.subtitle}`}
-                  width={80}
-                  height={80}
-                  className="h-16 w-auto object-contain opacity-70 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110 lg:h-20"
-                />
-              </div>
-
-              {/* Text */}
-              <h3 className="font-display text-sm tracking-wider text-white lg:text-base">
-                {cert.title}
-              </h3>
-              <p className="mt-1 text-[10px] uppercase tracking-widest text-ranin-steel transition-colors duration-300 group-hover:text-ranin-accent lg:text-[11px]">
-                {cert.subtitle}
-              </p>
-
-              {/* Bottom accent line */}
-              <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-ranin-accent transition-all duration-500 group-hover:w-full" />
-            </motion.div>
-          ))}
+        <div className="flex flex-col gap-6">
+          <CertRow />
+          <CertRow reverse />
         </div>
+      </div>
 
+      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         {/* Trust statement */}
         <motion.div
-          className="mt-14 flex flex-col items-center gap-4 border-t border-white/[0.06] pt-10 text-center lg:mt-20 lg:flex-row lg:justify-center lg:gap-8 lg:text-left"
+          className="mt-14 flex flex-col items-center gap-4 border-t border-white/[0.06] pt-10 text-center lg:mt-16 lg:flex-row lg:justify-center lg:gap-8 lg:text-left"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.6, duration: 0.5 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
         >
           <div className="flex items-center gap-3">
             <div className="h-px w-8 bg-ranin-accent/40" />

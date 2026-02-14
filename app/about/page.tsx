@@ -76,9 +76,9 @@ export default function AboutPage() {
           >
             <SectionLabel>About Us</SectionLabel>
             <h1 className="mt-4 font-display text-5xl text-white md:text-6xl lg:text-7xl">
-              BUILDING SAUDI ARABIA&apos;S
+              YOUR TRUSTED PARTNER IN
               <br />
-              INDUSTRIAL FUTURE
+              INDUSTRIAL EXCELLENCE
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-ranin-steel">
               For over 15 years, Ranin International has been a cornerstone of

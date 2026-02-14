@@ -8,6 +8,7 @@ import { ArrowRight, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { SectionLabel } from "@/components/shared/section-label";
 import { services, getServiceBySlug } from "@/lib/data/services";
+import { Certifications } from "@/components/sections/certifications";
 
 export default function ServiceDetailPage() {
   const params = useParams();
@@ -125,18 +126,27 @@ export default function ServiceDetailPage() {
               <h2 className="mt-4 font-display text-3xl text-ranin-navy sm:text-4xl">
                 KEY FEATURES
               </h2>
-              <div className="mt-6 grid gap-3">
-                {service.features.map((feature, i) => (
+              <div className="mt-6 grid gap-4">
+                {service.featureGroups.map((group, i) => (
                   <motion.div
-                    key={feature}
-                    className="flex items-start gap-3 border border-ranin-navy/[0.06] bg-white p-4"
+                    key={group.title}
+                    className="border border-ranin-navy/[0.06] bg-white p-5"
                     initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.08, duration: 0.4 }}
                   >
-                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-ranin-accent" />
-                    <span className="text-sm text-ranin-navy">{feature}</span>
+                    <h3 className="font-display text-base text-ranin-navy">
+                      {group.title.toUpperCase()}
+                    </h3>
+                    <div className="mt-3 grid gap-2">
+                      {group.details.map((detail) => (
+                        <div key={detail} className="flex items-start gap-2.5">
+                          <CheckCircle2 className="mt-0.5 size-3.5 shrink-0 text-ranin-accent" />
+                          <span className="text-sm text-ranin-steel">{detail}</span>
+                        </div>
+                      ))}
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -224,26 +234,8 @@ export default function ServiceDetailPage() {
         </div>
       </section>
 
-      {/* ── CTA ─────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-ranin-accent py-20 lg:py-28">
-        <div className="relative mx-auto max-w-4xl px-6 text-center lg:px-8">
-          <h2 className="font-display text-4xl text-white md:text-5xl">
-            INTERESTED IN THIS SERVICE?
-          </h2>
-          <p className="mx-auto mt-4 max-w-lg text-base text-white/70">
-            Get a tailored proposal for your project within 24-48 hours.
-          </p>
-          <div className="mt-8">
-            <Link
-              href="/contact"
-              className="group inline-flex h-12 items-center bg-white px-8 text-sm font-semibold text-ranin-navy transition-colors hover:bg-white/90"
-            >
-              Request a Quote
-              <ArrowRight className="ml-2 size-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* ── Certifications CTA ─────────────────────────────── */}
+      <Certifications />
     </main>
   );
 }

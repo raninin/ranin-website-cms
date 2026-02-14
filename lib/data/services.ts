@@ -7,6 +7,11 @@ import {
   Printer,
 } from "lucide-react";
 
+export interface ServiceFeature {
+  title: string;
+  details: string[];
+}
+
 export interface Service {
   id: number;
   slug: string;
@@ -15,6 +20,7 @@ export interface Service {
   description: string;
   longDescription: string;
   features: string[];
+  featureGroups: ServiceFeature[];
   icon: typeof Users;
   images: string[];
   heroImage: string;
@@ -37,6 +43,67 @@ export const services: Service[] = [
       "Rapid mobilization capabilities",
       "Full compliance & safety training",
       "Flexible staffing models",
+    ],
+    featureGroups: [
+      {
+        title: "Piping & Structural",
+        details: [
+          "Piping Supervisor, Foreman, Fabricator, Fitter, Grinder Man",
+          "Hydro Test Foreman, Line Checker",
+          "Structural Supervisor, Foreman, Fabricator, Fitter",
+          "Steel Erector, Iron Worker Foreman, Iron Worker",
+        ],
+      },
+      {
+        title: "Quality Control & Safety",
+        details: [
+          "Safety Supervisor, Inspector & Officer",
+          "QA/QC Inspectors — Mechanical, Structural, Welding, Painting & Coating",
+          "Mechanical Engineer (Static), Structural Engineer",
+          "Environmental Coordinator, Scaffolding Supervisor",
+        ],
+      },
+      {
+        title: "Mechanical & GRE (RTR)",
+        details: [
+          "Mechanical Supervisor, Foreman, Technician, Fitter & Helper",
+          "Millwright Foreman & Millwright",
+          "RTR Supervisor, GRE Laminator Foreman, Pipe Laminator",
+        ],
+      },
+      {
+        title: "Electrical, Instrumentation & Operations",
+        details: [
+          "Industrial Electrician, Electrical Technician & HVAC Technician",
+          "Instrument Fitter, Cable Terminator, Loop Checker",
+          "Forklift, Manlift, Boom Truck & Crane Operators",
+        ],
+      },
+      {
+        title: "Tank, Vessel & Welding",
+        details: [
+          "Tank Supervisor, Foreman, Fabricator & Fitter",
+          "Welders — 3G, 6G, 6GR, FCAW, SAW, MIG CO\u2082, Alloy, Inconel",
+          "Welding Foreman, Welding Supervisor, NDT Coordinator",
+        ],
+      },
+      {
+        title: "Rigging, Civil & Scaffolding",
+        details: [
+          "Riggers (Level I, II, III), Rigging Foreman & Supervisor",
+          "Civil Supervisor, Foreman, Steel Fixer, Carpenter, Flagman",
+          "Scaffolding Inspector, Supervisor, Foreman & Scaffolder",
+        ],
+      },
+      {
+        title: "Delivery Models",
+        details: [
+          "Short-term, shutdown & turnaround teams",
+          "Long-term, site-based staffing",
+          "Project-based workforce packages",
+          "Outsourced teams with supervision",
+        ],
+      },
     ],
     icon: Users,
     images: [
@@ -63,6 +130,51 @@ export const services: Service[] = [
       "Competitive procurement",
       "Logistics & timely delivery",
     ],
+    featureGroups: [
+      {
+        title: "Electrical",
+        details: [
+          "Cables, wires, panels & switchgear",
+          "Lighting, conduits, cable trays & accessories",
+        ],
+      },
+      {
+        title: "Mechanical (SS & CS)",
+        details: [
+          "Pipes, fittings, flanges & valves",
+          "Fasteners & structural components",
+        ],
+      },
+      {
+        title: "Power Tools",
+        details: [
+          "Electric tools & hand tools",
+          "Welding & cutting equipment",
+        ],
+      },
+      {
+        title: "Piping Systems",
+        details: [
+          "PVC, HDPE & GI pipes",
+          "Fittings & connectors",
+        ],
+      },
+      {
+        title: "Safety (PPE)",
+        details: [
+          "Helmets, safety shoes & gloves",
+          "Protective wear & site safety items",
+        ],
+      },
+      {
+        title: "Quality Assurance",
+        details: [
+          "Material compliance & documentation",
+          "Packaging & logistics planning",
+          "Delivery scheduling & site coordination",
+        ],
+      },
+    ],
     icon: Package,
     images: [
       "/services/Industries_And_Construction_Materials_Supply/icmsa (1).png",
@@ -87,6 +199,58 @@ export const services: Service[] = [
       "Safety compliance management",
       "24/7 operational monitoring",
       "Equipment inspection & testing",
+    ],
+    featureGroups: [
+      {
+        title: "Mechanical Systems",
+        details: [
+          "Rotating & static equipment maintenance",
+          "Pump, compressor & turbine servicing",
+        ],
+      },
+      {
+        title: "Electrical Systems",
+        details: [
+          "HV/LV switchgear & distribution maintenance",
+          "Motor control centers & transformers",
+        ],
+      },
+      {
+        title: "HVAC Systems",
+        details: [
+          "Chiller, AHU & ductwork servicing",
+          "Building climate control optimization",
+        ],
+      },
+      {
+        title: "Firefighting & Fire Alarm",
+        details: [
+          "Fire suppression system testing & maintenance",
+          "Alarm panel inspection & calibration",
+        ],
+      },
+      {
+        title: "Generators & Power",
+        details: [
+          "Diesel & gas generator maintenance",
+          "UPS & emergency power systems",
+        ],
+      },
+      {
+        title: "Civil & Building Services",
+        details: [
+          "Structural integrity inspections",
+          "Plumbing, drainage & facility upkeep",
+        ],
+      },
+      {
+        title: "Service Delivery",
+        details: [
+          "Experienced engineers & certified technicians",
+          "Work planning, supervision & reporting",
+          "Safety & regulatory compliance",
+        ],
+      },
     ],
     icon: Wrench,
     images: [
@@ -116,6 +280,37 @@ export const services: Service[] = [
       "Custom metalwork & assemblies",
       "NDT & quality inspection",
     ],
+    featureGroups: [
+      {
+        title: "Structural Steel Fabrication",
+        details: [
+          "Industrial & commercial structural steel",
+          "Beams, columns, trusses & platforms",
+        ],
+      },
+      {
+        title: "Piping Fabrication",
+        details: [
+          "Cutting, fit-up, welding & spool assembly",
+          "Carbon steel, stainless steel & alloy piping",
+        ],
+      },
+      {
+        title: "Housing Fabrication",
+        details: [
+          "Equipment enclosures & shelters",
+          "Protective structures & custom builds",
+        ],
+      },
+      {
+        title: "Quality & Compliance",
+        details: [
+          "Procedure-driven execution",
+          "Continuous quality control & dimensional inspection",
+          "Full documentation & traceability",
+        ],
+      },
+    ],
     icon: Hammer,
     images: Array.from({ length: 25 }, (_, i) => `/services/Fabrication_Work/fab (${i + 1}).png`),
     heroImage: "/services/Fabrication_Work/fab (1).png",
@@ -136,6 +331,38 @@ export const services: Service[] = [
       "Hot-dip galvanizing",
       "Coating inspection & DFT testing",
       "Corrosion protection solutions",
+    ],
+    featureGroups: [
+      {
+        title: "Surface Preparation",
+        details: [
+          "Sandblasting for proper surface cleaning (Sa 2.5 / Sa 3)",
+          "Mechanical & chemical surface preparation",
+        ],
+      },
+      {
+        title: "Industrial Painting",
+        details: [
+          "Epoxy & polyurethane coating systems",
+          "Application per approved coating specifications",
+          "Fireproofing & intumescent coatings",
+        ],
+      },
+      {
+        title: "Galvanizing",
+        details: [
+          "Hot-dip galvanizing for long-term corrosion protection",
+          "Batch & continuous galvanizing processes",
+        ],
+      },
+      {
+        title: "Inspection & Standards",
+        details: [
+          "Coating inspection & DFT testing at all stages",
+          "Compliance with international & project standards",
+          "Quality assurance documentation",
+        ],
+      },
     ],
     icon: PaintBucket,
     images: [
@@ -164,6 +391,39 @@ export const services: Service[] = [
       "Large-format printing",
       "Packaging & industrial labels",
       "Fast turnaround production",
+    ],
+    featureGroups: [
+      {
+        title: "Technical Printing",
+        details: [
+          "Engineering drawings & schematics",
+          "Operational manuals & safety documents",
+          "Reports & training documentation",
+        ],
+      },
+      {
+        title: "Corporate & Marketing",
+        details: [
+          "Brochures & corporate communication materials",
+          "Corporate branding & collateral",
+        ],
+      },
+      {
+        title: "Production Capabilities",
+        details: [
+          "Digital & offset printing — small batch to large volume",
+          "Large-format printing & signage",
+          "Packaging & industrial labels",
+        ],
+      },
+      {
+        title: "Finishing & Quality",
+        details: [
+          "Laminating, binding, cutting & folding",
+          "Proofing, inspection & specification compliance",
+          "Confidential handling & on-time delivery",
+        ],
+      },
     ],
     icon: Printer,
     images: [

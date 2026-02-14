@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   motion,
   AnimatePresence,
@@ -12,6 +12,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { MegaMenu } from "./mega-menu";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -24,8 +25,19 @@ const navLinks = [
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [megaMenuOpen, setMegaMenuOpen] = useState(false);
+  const megaMenuTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { scrollY } = useScroll();
   const pathname = usePathname();
+
+  const openMegaMenu = () => {
+    if (megaMenuTimeout.current) clearTimeout(megaMenuTimeout.current);
+    setMegaMenuOpen(true);
+  };
+
+  const closeMegaMenu = () => {
+    megaMenuTimeout.current = setTimeout(() => setMegaMenuOpen(false), 150);
+  };
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -78,21 +90,28 @@ export function Navbar() {
             {/* Vertical divider after logo */}
             <div className="hidden h-6 w-px bg-white/[0.08] lg:block" />
 
-            {/* ── Desktop Nav — Numbered + Sliding Highlight */}
+            {/* ── Desktop Nav — Sliding Highlight */}
             <div
               className="hidden flex-1 items-center lg:flex"
               onMouseLeave={() => setHoveredIndex(null)}
             >
               {navLinks.map((link, i) => {
                 const active = isActive(link.href);
+                const isServices = link.label === "Services";
                 return (
                   <Link
                     key={link.label}
                     href={link.href}
                     className={`relative px-4 py-2 text-[13px] font-medium transition-colors duration-200 hover:text-white ${
-                      active ? "text-white" : "text-white/50"
+                      active || (isServices && megaMenuOpen)
+                        ? "text-white"
+                        : "text-white/50"
                     }`}
-                    onMouseEnter={() => setHoveredIndex(i)}
+                    onMouseEnter={() => {
+                      setHoveredIndex(i);
+                      if (isServices) openMegaMenu();
+                      else closeMegaMenu();
+                    }}
                   >
                     {/* Sliding highlight box (hover or active) */}
                     {(hoveredIndex === i || (hoveredIndex === null && active)) && (
@@ -106,14 +125,7 @@ export function Navbar() {
                         }}
                       />
                     )}
-                    <span className="relative z-10 flex items-center gap-2">
-                      <span
-                        className={`font-mono text-[10px] ${
-                          active ? "text-ranin-accent" : "text-ranin-accent/70"
-                        }`}
-                      >
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
+                    <span className="relative z-10">
                       {link.label}
                     </span>
                   </Link>
@@ -183,6 +195,16 @@ export function Navbar() {
             </button>
           </nav>
         </motion.div>
+
+        {/* ── Desktop Mega Menu ──────────────────────────── */}
+        <AnimatePresence>
+          {megaMenuOpen && (
+            <MegaMenu
+              onMouseEnter={openMegaMenu}
+              onMouseLeave={closeMegaMenu}
+            />
+          )}
+        </AnimatePresence>
       </motion.header>
 
       {/* ── Mobile Full-Screen Menu ────────────────────── */}
@@ -217,13 +239,6 @@ export function Navbar() {
                           ease: [0.25, 0.46, 0.45, 0.94],
                         }}
                       >
-                        <span
-                          className={`font-mono text-xs ${
-                            active ? "text-ranin-accent" : "text-ranin-accent/60"
-                          }`}
-                        >
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
                         <span
                           className={`font-display text-3xl transition-colors group-hover:text-white sm:text-4xl ${
                             active ? "text-white" : "text-white/80"

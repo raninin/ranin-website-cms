@@ -74,7 +74,7 @@ export function AboutPreview() {
 
             <ScrollReveal delay={0.1}>
               <h2 className="mt-4 font-display text-3xl text-ranin-navy sm:text-4xl md:text-5xl">
-                BUILDING SAUDI ARABIA&apos;S INDUSTRIAL FUTURE SINCE 2010
+                YOUR TRUSTED INDUSTRIAL PARTNER SINCE 2010
               </h2>
             </ScrollReveal>
 
