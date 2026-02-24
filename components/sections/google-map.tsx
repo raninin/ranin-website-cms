@@ -3,11 +3,15 @@
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { SectionLabel } from "@/components/shared/section-label";
+import { defaultCompanyInfo, type CompanyInfoData } from "@/lib/data/defaults/company-info";
+import { SubtlePatternBg } from "@/components/shared/subtle-pattern-bg";
 
-export function GoogleMap() {
+export function GoogleMap({ companyInfo }: { companyInfo?: CompanyInfoData }) {
+  const info = companyInfo ?? defaultCompanyInfo;
   return (
-    <section className="relative bg-ranin-light py-24 lg:py-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <section className="relative overflow-hidden bg-ranin-light py-24 lg:py-32">
+      <SubtlePatternBg src="/images/30.png" opacity={0.09} />
+      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-3 lg:gap-12">
           {/* Left: Info */}
           <motion.div
@@ -28,28 +32,26 @@ export function GoogleMap() {
             <div className="mt-8 flex flex-col gap-5">
               <div className="flex items-start gap-3">
                 <MapPin className="mt-0.5 size-4 shrink-0 text-ranin-accent" />
-                <span className="text-sm text-ranin-steel">
-                  Jubail Industrial City,
-                  <br />
-                  Kingdom of Saudi Arabia
+                <span className="text-sm text-ranin-steel whitespace-pre-line">
+                  {info.address}
                 </span>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="size-4 shrink-0 text-ranin-accent" />
                 <a
-                  href="tel:+966133410000"
+                  href={`tel:${info.phone.replace(/\s/g, "")}`}
                   className="text-sm text-ranin-steel transition-colors hover:text-ranin-accent"
                 >
-                  +966 13 341 0000
+                  {info.phone}
                 </a>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="size-4 shrink-0 text-ranin-accent" />
                 <a
-                  href="mailto:info@ranin.com.sa"
+                  href={`mailto:${info.email}`}
                   className="text-sm text-ranin-steel transition-colors hover:text-ranin-accent"
                 >
-                  info@ranin.com.sa
+                  {info.email}
                 </a>
               </div>
             </div>
@@ -65,14 +67,18 @@ export function GoogleMap() {
           >
             <div className="overflow-hidden border border-ranin-navy/[0.06]">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4373.719608980263!2d49.65081708697007!3d27.013888395380558!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e35a10024d65585%3A0xb70e8ea3cf6fe8ca!2sRANIN%20INTERNATIONAL%20CONTRACTING%20COMPANY!5e1!3m2!1sen!2ssa!4v1770456740401!5m2!1sen!2ssa"
+                src={info.mapEmbedUrl}
                 width="100%"
                 height="400"
-                style={{ border: 0 }}
+                style={{
+                  border: 0,
+                  filter:
+                    "invert(1) hue-rotate(220deg) brightness(0.9) contrast(0.9) saturate(0.25)",
+                }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="w-full grayscale transition-all duration-500 hover:grayscale-0"
+                className="w-full"
                 title="Ranin International Office Location"
               />
             </div>

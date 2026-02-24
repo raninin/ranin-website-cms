@@ -3,33 +3,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ShieldCheck, Handshake, Award, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 import { SectionLabel } from "@/components/shared/section-label";
 import { ScrollReveal } from "@/components/animations/scroll-reveal";
+import { defaultAboutPreview, type AboutPreviewData } from "@/lib/data/defaults/about-preview";
+import { getIcon } from "@/lib/data/icons";
+import { SubtlePatternBg } from "@/components/shared/subtle-pattern-bg";
 
-const values = [
-  {
-    icon: ShieldCheck,
-    title: "Safety First",
-    description: "Zero-compromise safety culture across every project site and operation.",
-  },
-  {
-    icon: Handshake,
-    title: "Integrity",
-    description: "Transparent partnerships built on trust, accountability, and honest communication.",
-  },
-  {
-    icon: Award,
-    title: "Excellence",
-    description: "Relentless pursuit of quality in every deliverable, from manpower to materials.",
-  },
-];
-
-export function AboutPreview() {
+export function AboutPreview({ data }: { data?: AboutPreviewData }) {
+  const d = data ?? defaultAboutPreview;
   return (
     <section className="relative overflow-hidden bg-ranin-light py-24 lg:py-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <SubtlePatternBg src="/images/30.png" opacity={0.09} />
+      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
         {/* ── Two-column layout ──────────────────────────────── */}
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left: Image with block-wipe reveal */}
@@ -54,8 +40,8 @@ export function AboutPreview() {
               transition={{ duration: 1.4, ease: "easeOut" }}
             >
               <Image
-                src="/images/56.png"
-                alt="Ranin International worker at industrial facility"
+                src={d.image}
+                alt={d.imageAlt}
                 width={640}
                 height={480}
                 className="aspect-[4/3] w-full object-cover"
@@ -68,40 +54,31 @@ export function AboutPreview() {
           <div>
             <ScrollReveal>
               <SectionLabel className="text-ranin-accent">
-                Who We Are
+                {d.sectionLabel}
               </SectionLabel>
             </ScrollReveal>
 
             <ScrollReveal delay={0.1}>
               <h2 className="mt-4 font-display text-3xl text-ranin-navy sm:text-4xl md:text-5xl">
-                YOUR TRUSTED INDUSTRIAL PARTNER SINCE 2010
+                {d.heading}
               </h2>
             </ScrollReveal>
 
-            <ScrollReveal delay={0.2}>
-              <p className="mt-6 text-base leading-relaxed text-ranin-steel">
-                Ranin International is a diversified industrial services company
-                headquartered in the Kingdom of Saudi Arabia. For over 15 years, we
-                have delivered mission-critical manpower, materials, fabrication,
-                and maintenance solutions to the region&apos;s most demanding
-                sectors.
+            {d.paragraphs.map((p, i) => (
+            <ScrollReveal key={i} delay={0.2 + i * 0.1}>
+              <p className={`${i === 0 ? "mt-6" : "mt-4"} text-base leading-relaxed text-ranin-steel`}>
+                {p}
               </p>
             </ScrollReveal>
+            ))}
 
-            <ScrollReveal delay={0.3}>
-              <p className="mt-4 text-base leading-relaxed text-ranin-steel">
-                Our commitment to operational excellence, safety, and integrity
-                has made us a trusted partner for leading EPC contractors, oil
-                &amp; gas operators, and government entities across the Kingdom.
-              </p>
-            </ScrollReveal>
 
-            <ScrollReveal delay={0.4}>
+            <ScrollReveal delay={0.2 + d.paragraphs.length * 0.1}>
               <Link
-                href="/about"
+                href={d.linkHref}
                 className="group mt-6 inline-flex items-center text-sm font-semibold text-ranin-navy transition-colors hover:text-ranin-accent"
               >
-                About Us
+                {d.linkText}
                 <ArrowRight className="ml-2 size-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </ScrollReveal>
@@ -110,9 +87,11 @@ export function AboutPreview() {
 
         {/* ── Value Cards ────────────────────────────────────── */}
         <div className="mt-16 grid gap-4 sm:grid-cols-3 lg:mt-20">
-          {values.map((value, i) => (
+          {d.values.map((v, i) => {
+            const Icon = getIcon(v.iconName);
+            return (
             <motion.div
-              key={value.title}
+              key={v.title}
               className="group border border-ranin-navy/[0.06] bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-ranin-accent/20 hover:shadow-lg lg:p-8"
               initial={{ opacity: 0, y: 30, scale: 0.97 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -124,15 +103,16 @@ export function AboutPreview() {
                 stiffness: 100,
               }}
             >
-              <value.icon className="size-8 text-ranin-accent" strokeWidth={1.5} />
+              <Icon className="size-8 text-ranin-accent" strokeWidth={1.5} />
               <h3 className="mt-4 font-display text-xl text-ranin-navy">
-                {value.title.toUpperCase()}
+                {v.title.toUpperCase()}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-ranin-steel">
-                {value.description}
+                {v.description}
               </p>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

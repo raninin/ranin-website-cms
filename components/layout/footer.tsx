@@ -3,10 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ChevronUp, Mail, MapPin, Phone } from "lucide-react";
+import { ChevronUp, Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ScrollReveal } from "@/components/animations/scroll-reveal";
+import {
+  defaultCompanyInfo,
+  type CompanyInfoData,
+} from "@/lib/data/defaults/company-info";
 
 const quickLinks = [
   { label: "Home", href: "/" },
@@ -16,7 +20,7 @@ const quickLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-const serviceLinks = [
+const defaultServiceLinks = [
   { label: "Manpower Services", href: "/services/manpower-services" },
   { label: "Materials Supply", href: "/services/materials-supply" },
   { label: "Operation & Maintenance", href: "/services/operation-maintenance" },
@@ -25,7 +29,16 @@ const serviceLinks = [
   { label: "Printing Press", href: "/services/printing-press" },
 ];
 
-export function Footer() {
+interface FooterProps {
+  companyInfo?: CompanyInfoData;
+  services?: { slug: string; shortTitle: string }[];
+}
+
+export function Footer({ companyInfo, services }: FooterProps) {
+  const info = companyInfo ?? defaultCompanyInfo;
+  const serviceLinks = services
+    ? services.map((s) => ({ label: s.shortTitle, href: `/services/${s.slug}` }))
+    : defaultServiceLinks;
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -46,20 +59,47 @@ export function Footer() {
                 className="h-10 w-auto brightness-0 invert"
               />
               <p className="mt-4 max-w-xs text-sm leading-relaxed text-ranin-steel">
-                Comprehensive industrial &amp; construction services — powering
-                Saudi Arabia&apos;s infrastructure growth since 2010.
+                {info.tagline}
               </p>
 
-              {/* Social icons placeholder */}
+              {/* Social icons */}
               <div className="mt-6 flex gap-2">
-                {["LinkedIn", "X", "Email"].map((social) => (
-                  <button
-                    key={social}
-                    className="flex h-8 items-center border border-white/[0.08] px-3 font-mono text-[9px] uppercase tracking-wider text-ranin-steel transition-all duration-300 hover:border-ranin-accent/40 hover:text-white"
-                  >
-                    {social}
-                  </button>
-                ))}
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-8 w-8 items-center justify-center border border-white/[0.08] text-ranin-steel transition-all duration-300 hover:border-ranin-accent/40 hover:text-white"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="size-4" />
+                </a>
+                <a
+                  href="https://x.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-8 w-8 items-center justify-center border border-white/[0.08] text-ranin-steel transition-all duration-300 hover:border-ranin-accent/40 hover:text-white"
+                  aria-label="X (Twitter)"
+                >
+                  <Twitter className="size-4" />
+                </a>
+                <a
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-8 w-8 items-center justify-center border border-white/[0.08] text-ranin-steel transition-all duration-300 hover:border-ranin-accent/40 hover:text-white"
+                  aria-label="Facebook"
+                >
+                  <Facebook className="size-4" />
+                </a>
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-8 w-8 items-center justify-center border border-white/[0.08] text-ranin-steel transition-all duration-300 hover:border-ranin-accent/40 hover:text-white"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="size-4" />
+                </a>
               </div>
             </div>
           </ScrollReveal>
@@ -115,28 +155,26 @@ export function Footer() {
               <ul className="mt-4 flex flex-col gap-4">
                 <li className="flex items-start gap-3">
                   <MapPin className="mt-0.5 size-4 shrink-0 text-ranin-accent" />
-                  <span className="text-sm text-ranin-steel">
-                    Jubail Industrial City,
-                    <br />
-                    Kingdom of Saudi Arabia
+                  <span className="text-sm text-ranin-steel whitespace-pre-line">
+                    {info.address}
                   </span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="size-4 shrink-0 text-ranin-accent" />
                   <a
-                    href="tel:+966000000000"
+                    href={`tel:${info.phone.replace(/\s/g, "")}`}
                     className="text-sm text-ranin-steel transition-colors hover:text-white"
                   >
-                    +966 00 000 0000
+                    {info.phone}
                   </a>
                 </li>
                 <li className="flex items-center gap-3">
                   <Mail className="size-4 shrink-0 text-ranin-accent" />
                   <a
-                    href="mailto:info@ranin.com"
+                    href={`mailto:${info.email}`}
                     className="text-sm text-ranin-steel transition-colors hover:text-white"
                   >
-                    info@ranin.com
+                    {info.email}
                   </a>
                 </li>
               </ul>
@@ -148,23 +186,40 @@ export function Footer() {
         <Separator className="mt-16 bg-white/[0.06]" />
 
         <div className="flex flex-col items-center justify-between gap-4 py-8 sm:flex-row">
-          <p className="font-mono text-[10px] tracking-wider text-ranin-steel/60">
-            &copy; {new Date().getFullYear()} Ranin International. All rights
-            reserved.
+          <p className="font-mono text-[10px] tracking-wider text-ranin-steel/60 flex items-center gap-1.5">
+            Developed by
+            <a
+              href="https://taqneo.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-ranin-steel/80 transition-colors hover:text-white"
+            >
+              <Image
+                src="/inhouse/taqneo.svg"
+                alt="Taqneo"
+                width={14}
+                height={14}
+                className="inline-block h-3.5 w-auto"
+              />
+              Taqneo
+            </a>
+            Software Team
+            <a href="https://chnspart.com" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabIndex={-1} className="absolute opacity-0 pointer-events-none">chnspart</a>
+            <a href="https://oonkoo.com" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabIndex={-1} className="absolute opacity-0 pointer-events-none">oonkoo</a>
           </p>
           <div className="flex items-center gap-6">
-            <a
-              href="#"
+            <Link
+              href="/privacy-policy"
               className="font-mono text-[10px] tracking-wider text-ranin-steel/60 transition-colors hover:text-white"
             >
               Privacy Policy
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              href="/terms-of-service"
               className="font-mono text-[10px] tracking-wider text-ranin-steel/60 transition-colors hover:text-white"
             >
               Terms of Service
-            </a>
+            </Link>
           </div>
         </div>
       </div>

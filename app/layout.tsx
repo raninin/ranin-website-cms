@@ -4,6 +4,10 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Preloader } from "@/components/layout/preloader";
 import { PageTransition } from "@/components/layout/page-transition";
+import { getSiteMeta } from "@/lib/queries/site-content";
+import { getCompanyInfo } from "@/lib/queries/company-info";
+import { getServicesForNav } from "@/lib/queries/services";
+import { getProjectsForNav } from "@/lib/queries/projects";
 import "./globals.css";
 
 const bebasNeue = Bebas_Neue({
@@ -22,23 +26,43 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Ranin International",
-  description: "Industrial & Construction Solutions Delivered with Excellence",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const meta = await getSiteMeta();
+  return {
+    title: meta.title,
+    description: meta.description,
+    openGraph: {
+      title: meta.title,
+      description: meta.description,
+      images: [{ url: "/ranin-logo.png", width: 512, height: 512, alt: "Ranin International" }],
+    },
+    twitter: {
+      card: "summary",
+      title: meta.title,
+      description: meta.description,
+      images: ["/ranin-logo.png"],
+    },
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [companyInfo, servicesNav, projectsNav] = await Promise.all([
+    getCompanyInfo(),
+    getServicesForNav(),
+    getProjectsForNav(),
+  ]);
+
   return (
     <html lang="en" className={`${bebasNeue.variable} ${inter.variable} ${geistMono.variable} dark`}>
       <body className="antialiased">
         <Preloader />
-        <Navbar />
+        <Navbar services={servicesNav} projects={projectsNav} />
         <PageTransition>{children}</PageTransition>
-        <Footer />
+        <Footer companyInfo={companyInfo} services={servicesNav} />
       </body>
     </html>
   );

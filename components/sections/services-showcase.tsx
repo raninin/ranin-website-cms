@@ -8,81 +8,18 @@ import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { SectionLabel } from "@/components/shared/section-label";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
+import { services as defaultServicesList } from "@/lib/data/services";
 
-const services = [
-  {
-    id: 1,
-    slug: "manpower-services",
-    title: "Industrial & Construction\nManpower Services",
-    description:
-      "Deploying skilled and semi-skilled workforce across Saudi Arabia — welders, fitters, riggers, electricians, and project managers tailored to your operational demands.",
-    images: [
-      "/services/Industrial_And_Construction_Manpower_Services/icms (1).png",
-      "/services/Industrial_And_Construction_Manpower_Services/icms (2).png",
-    ],
-  },
-  {
-    id: 2,
-    slug: "materials-supply",
-    title: "Industrial & Construction\nMaterials Supply",
-    description:
-      "Comprehensive procurement and supply chain management for industrial-grade materials, structural steel, piping, valves, and construction consumables.",
-    images: [
-      "/services/Industries_And_Construction_Materials_Supply/icmsa (1).png",
-      "/services/Industries_And_Construction_Materials_Supply/icmsa (2).png",
-    ],
-  },
-  {
-    id: 3,
-    slug: "operation-maintenance",
-    title: "Operation &\nMaintenance",
-    description:
-      "Turnkey O&M services for refineries, power plants, and industrial facilities — ensuring maximum uptime, safety compliance, and operational efficiency.",
-    images: [
-      "/services/Operation_And_Maintenance/om (1).png",
-      "/services/Operation_And_Maintenance/om (2).png",
-      "/services/Operation_And_Maintenance/om (3).png",
-    ],
-  },
-  {
-    id: 4,
-    slug: "fabrication-work",
-    title: "Fabrication\nWork",
-    description:
-      "Precision fabrication of structural steel, pressure vessels, piping spools, tanks, and custom metalwork — from engineering to final inspection.",
-    images: [
-      "/services/Fabrication_Work/fab (1).png",
-      "/services/Fabrication_Work/fab (10).png",
-      "/services/Fabrication_Work/fab (12).png",
-    ],
-  },
-  {
-    id: 5,
-    slug: "sandblasting-painting",
-    title: "Sandblasting, Painting\n& Galvanizing",
-    description:
-      "Surface preparation and protective coating services — industrial sandblasting, epoxy systems, fireproofing, and hot-dip galvanizing for lasting corrosion protection.",
-    images: [
-      "/services/Sandblasting_Painting_And_Galvanizing_Work/spgw (1).png",
-      "/services/Sandblasting_Painting_And_Galvanizing_Work/spgw (2).png",
-      "/services/Sandblasting_Painting_And_Galvanizing_Work/spgw (3).png",
-    ],
-  },
-  {
-    id: 6,
-    slug: "printing-press",
-    title: "Printing Press\nServices",
-    description:
-      "Full-service commercial and industrial printing — corporate collateral, safety signage, technical documentation, and large-format production.",
-    images: [
-      "/services/Printing_Press_Services/pps (1).png",
-      "/services/Printing_Press_Services/pps (2).png",
-      "/services/Printing_Press_Services/pps (3).png",
-    ],
-  },
-];
+interface ServiceShowcaseItem {
+  id: number;
+  slug: string;
+  title: string;
+  description: string;
+  images: string[];
+}
 
-export function ServicesShowcase() {
+export function ServicesShowcase({ services: servicesProp }: { services?: ServiceShowcaseItem[] }) {
+  const services = servicesProp ?? defaultServicesList.map(s => ({ id: s.id, slug: s.slug, title: s.title, description: s.description, images: s.images }));
   const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);

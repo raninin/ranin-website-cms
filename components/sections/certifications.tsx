@@ -3,42 +3,10 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { SectionLabel } from "@/components/shared/section-label";
+import { defaultCertifications, type CertificationData } from "@/lib/queries/certifications";
 
-const certifications = [
-  {
-    logo: "/certificates/iso-9001-2015-quality-management.svg",
-    title: "ISO 9001:2015",
-    subtitle: "Quality Management",
-  },
-  {
-    logo: "/certificates/iso-14001-2015-environmental-management.svg",
-    title: "ISO 14001:2015",
-    subtitle: "Environmental Management",
-  },
-  {
-    logo: "/certificates/iso-45001-2018-occupational-health-safety.svg",
-    title: "ISO 45001:2018",
-    subtitle: "Occupational Health & Safety",
-  },
-  {
-    logo: "/certificates/saudi-aramco-approved-vendor.svg",
-    title: "Saudi Aramco",
-    subtitle: "Approved Vendor",
-  },
-  {
-    logo: "/certificates/sabic-approved-contractor.svg",
-    title: "SABIC",
-    subtitle: "Approved Contractor",
-  },
-  {
-    logo: "/certificates/royal-commission-jubail-licensed.svg",
-    title: "Royal Commission",
-    subtitle: "Jubail Licensed",
-  },
-];
-
-function CertRow({ reverse = false }: { reverse?: boolean }) {
-  const doubled = [...certifications, ...certifications];
+function CertRow({ reverse = false, certs }: { reverse?: boolean; certs: CertificationData[] }) {
+  const doubled = [...certs, ...certs];
   return (
     <div
       className={`flex items-center gap-8 lg:gap-12 ${
@@ -52,7 +20,7 @@ function CertRow({ reverse = false }: { reverse?: boolean }) {
         >
           <div className="relative flex h-12 w-12 shrink-0 items-center justify-center lg:h-14 lg:w-14">
             <Image
-              src={cert.logo}
+              src={cert.logoUrl}
               alt={`${cert.title} - ${cert.subtitle}`}
               width={56}
               height={56}
@@ -73,7 +41,8 @@ function CertRow({ reverse = false }: { reverse?: boolean }) {
   );
 }
 
-export function Certifications() {
+export function Certifications({ certifications }: { certifications?: CertificationData[] }) {
+  const certs = certifications ?? defaultCertifications;
   return (
     <section className="relative overflow-hidden bg-ranin-navy py-24 lg:py-32">
       {/* Subtle grid pattern */}
@@ -121,8 +90,8 @@ export function Certifications() {
         <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-20 bg-gradient-to-l from-ranin-navy to-transparent sm:w-32" />
 
         <div className="flex flex-col gap-6">
-          <CertRow />
-          <CertRow reverse />
+          <CertRow certs={certs} />
+          <CertRow certs={certs} reverse />
         </div>
       </div>
 

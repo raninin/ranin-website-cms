@@ -8,65 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SectionLabel } from "@/components/shared/section-label";
 
-/* ── Partner logos ───────────────────────────────────────── */
-const partnersRow1 = [
-  { src: "/partners/Saudi_Aramco_logo.png", alt: "Saudi Aramco" },
-  { src: "/partners/SABIC_logo.png", alt: "SABIC" },
-  { src: "/partners/MAADEN.png", alt: "Ma'aden" },
-  { src: "/partners/NEOM.png", alt: "NEOM" },
-  { src: "/partners/Sadara.png", alt: "Sadara" },
-  { src: "/partners/SAMSUNG_Engineering.png", alt: "Samsung Engineering" },
-  { src: "/partners/HYUNDAI_Engineering.png", alt: "Hyundai Engineering" },
-  { src: "/partners/SAIPEM.png", alt: "Saipem" },
-  { src: "/partners/Sinopec.png", alt: "Sinopec" },
-  { src: "/partners/L_T.png", alt: "L&T" },
-  { src: "/partners/DAEWOO.png", alt: "Daewoo" },
-  { src: "/partners/DOOSAN.png", alt: "Doosan" },
-];
-
-const partnersRow2 = [
-  { src: "/partners/CCC-Consolidated_Contractors_Company.png", alt: "CCC" },
-  { src: "/partners/Tecnicas_Reunidas_logo.png", alt: "Tecnicas Reunidas" },
-  { src: "/partners/JGC_Corporation_company_logo.png", alt: "JGC" },
-  { src: "/partners/MARAFIQ_logo.png", alt: "Marafiq" },
-  { src: "/partners/Farabi.png", alt: "Farabi" },
-  { src: "/partners/SASREF.png", alt: "SASREF" },
-  { src: "/partners/Satrop.png", alt: "Satrop" },
-  { src: "/partners/Yasref_logo.png", alt: "Yasref" },
-  { src: "/partners/RC.png", alt: "Royal Commission" },
-  { src: "/partners/Read_Sea.png", alt: "Red Sea" },
-  { src: "/partners/S-Chem_logo.png", alt: "S-Chem" },
-  { src: "/partners/Sipchem_logo.png", alt: "Sipchem" },
-];
-
-/* ── Featured projects ───────────────────────────────────── */
-const projects = [
-  {
-    title: "Petrochemical Complex Maintenance",
-    sector: "Petrochemical",
-    location: "Jubail Industrial City",
-    image: "/images/13.png",
-  },
-  {
-    title: "High-Rise Construction Support",
-    sector: "Construction",
-    location: "Riyadh, KSA",
-    image: "/images/30.png",
-  },
-  {
-    title: "Refinery Turnaround Project",
-    sector: "Oil & Gas",
-    location: "Yanbu, KSA",
-    image: "/images/39.png",
-  },
-];
+import { defaultClientsProjects, type ClientsProjectsData, type PartnerLogo } from "@/lib/data/defaults/clients-projects";
 
 /* ── Logo Marquee Row ────────────────────────────────────── */
 function LogoRow({
   logos,
   reverse = false,
 }: {
-  logos: typeof partnersRow1;
+  logos: PartnerLogo[];
   reverse?: boolean;
 }) {
   const doubled = [...logos, ...logos];
@@ -94,7 +43,8 @@ function LogoRow({
   );
 }
 
-export function ClientsProjects() {
+export function ClientsProjects({ data }: { data?: ClientsProjectsData }) {
+  const d = data ?? defaultClientsProjects;
   return (
     <section className="bg-ranin-light py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -102,11 +52,10 @@ export function ClientsProjects() {
         <div className="text-center">
           <SectionLabel className="text-ranin-accent">Partners</SectionLabel>
           <h2 className="mt-4 font-display text-3xl text-ranin-navy sm:text-4xl md:text-5xl">
-            TRUSTED BY INDUSTRY LEADERS
+            {d.partnersHeading}
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base text-ranin-steel">
-            Partnering with the world&apos;s leading engineering, construction,
-            and energy companies across the Kingdom.
+            {d.partnersDescription}
           </p>
         </div>
 
@@ -117,8 +66,8 @@ export function ClientsProjects() {
           <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-20 bg-gradient-to-l from-ranin-light to-transparent sm:w-32" />
 
           <div className="flex flex-col gap-8 lg:gap-10">
-            <LogoRow logos={partnersRow1} />
-            <LogoRow logos={partnersRow2} reverse />
+            <LogoRow logos={d.partnersRow1} />
+            <LogoRow logos={d.partnersRow2} reverse />
           </div>
         </div>
       </div>
@@ -128,12 +77,12 @@ export function ClientsProjects() {
         <div className="mt-24 text-center lg:mt-32">
           <SectionLabel className="text-ranin-accent">Portfolio</SectionLabel>
           <h2 className="mt-4 font-display text-3xl text-ranin-navy sm:text-4xl md:text-5xl">
-            PROJECT HIGHLIGHTS
+            {d.portfolioHeading}
           </h2>
         </div>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
-          {projects.map((project, i) => (
+          {d.featuredProjects.map((project, i) => (
             <motion.div
               key={project.title}
               className="group relative overflow-hidden"

@@ -22,6 +22,7 @@ export interface Service {
   features: string[];
   featureGroups: ServiceFeature[];
   icon: typeof Users;
+  iconName: string;
   images: string[];
   heroImage: string;
 }
@@ -106,6 +107,7 @@ export const services: Service[] = [
       },
     ],
     icon: Users,
+    iconName: "Users",
     images: [
       "/services/Industrial_And_Construction_Manpower_Services/icms (1).png",
       "/services/Industrial_And_Construction_Manpower_Services/icms (2).png",
@@ -176,6 +178,7 @@ export const services: Service[] = [
       },
     ],
     icon: Package,
+    iconName: "Package",
     images: [
       "/services/Industries_And_Construction_Materials_Supply/icmsa (1).png",
       "/services/Industries_And_Construction_Materials_Supply/icmsa (2).png",
@@ -253,6 +256,7 @@ export const services: Service[] = [
       },
     ],
     icon: Wrench,
+    iconName: "Wrench",
     images: [
       "/services/Operation_And_Maintenance/om (1).png",
       "/services/Operation_And_Maintenance/om (2).png",
@@ -312,6 +316,7 @@ export const services: Service[] = [
       },
     ],
     icon: Hammer,
+    iconName: "Hammer",
     images: Array.from({ length: 25 }, (_, i) => `/services/Fabrication_Work/fab (${i + 1}).png`),
     heroImage: "/services/Fabrication_Work/fab (1).png",
   },
@@ -365,6 +370,7 @@ export const services: Service[] = [
       },
     ],
     icon: PaintBucket,
+    iconName: "PaintBucket",
     images: [
       "/services/Sandblasting_Painting_And_Galvanizing_Work/spgw (1).png",
       "/services/Sandblasting_Painting_And_Galvanizing_Work/spgw (2).png",
@@ -426,6 +432,7 @@ export const services: Service[] = [
       },
     ],
     icon: Printer,
+    iconName: "Printer",
     images: [
       "/services/Printing_Press_Services/pps (1).png",
       "/services/Printing_Press_Services/pps (2).png",

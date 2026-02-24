@@ -3,8 +3,10 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { SplitText } from "@/components/animations/split-text";
+import { defaultVision2030, type Vision2030Data } from "@/lib/data/defaults/vision-2030";
 
-export function Vision2030() {
+export function Vision2030({ data }: { data?: Vision2030Data }) {
+  const d = data ?? defaultVision2030;
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -41,7 +43,7 @@ export function Vision2030() {
           stagger={0.06}
           yOffset={40}
         >
-          ALIGNED WITH SAUDI VISION 2030
+          {d.heading}
         </SplitText>
 
         <motion.p
@@ -51,10 +53,7 @@ export function Vision2030() {
           viewport={{ once: true }}
           transition={{ delay: 0.4, duration: 0.8 }}
         >
-          As the Kingdom accelerates its transformation, Ranin International
-          stands at the forefront — contributing to national industrialization
-          goals, workforce development, and infrastructure modernization
-          through our comprehensive industrial services.
+          {d.description}
         </motion.p>
 
         {/* Decorative elements */}
@@ -67,7 +66,7 @@ export function Vision2030() {
         >
           <div className="h-px w-12 bg-ranin-gold/40" />
           <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-ranin-gold/60">
-            Building the Kingdom
+            {d.tagline}
           </span>
           <div className="h-px w-12 bg-ranin-gold/40" />
         </motion.div>

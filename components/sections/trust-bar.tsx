@@ -3,19 +3,14 @@
 import { motion } from "framer-motion";
 import { Counter } from "@/components/animations/counter";
 import { Separator } from "@/components/ui/separator";
+import { defaultTrustBar, type TrustBarData } from "@/lib/data/defaults/trust-bar";
 
-const metrics = [
-  { value: 15, suffix: "+", label: "Years Experience" },
-  { value: 500, suffix: "+", label: "Projects Completed" },
-  { value: 6, suffix: "", label: "Core Services" },
-  { value: 24, suffix: "/7", label: "Support Available" },
-];
-
-export function TrustBar() {
+export function TrustBar({ data }: { data?: TrustBarData }) {
+  const d = data ?? defaultTrustBar;
   return (
     <section className="relative z-10 border-y border-white/[0.06] bg-ranin-navy">
-      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-y-8 px-6 py-10 md:py-12 lg:grid-cols-4 lg:gap-0 lg:py-14">
-        {metrics.map((metric, i) => (
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-y-8 px-6 py-10 md:grid-cols-3 md:gap-0 md:py-12 lg:py-14">
+        {d.metrics.map((metric, i) => (
           <motion.div
             key={metric.label}
             className="relative flex flex-col items-center text-center"
@@ -28,7 +23,7 @@ export function TrustBar() {
             {i > 0 && (
               <Separator
                 orientation="vertical"
-                className="absolute left-0 top-1/2 hidden h-12 -translate-y-1/2 bg-gradient-to-b from-transparent via-white/[0.06] to-transparent lg:block"
+                className="absolute left-0 top-1/2 hidden h-12 -translate-y-1/2 bg-gradient-to-b from-transparent via-white/[0.06] to-transparent md:block"
               />
             )}
 

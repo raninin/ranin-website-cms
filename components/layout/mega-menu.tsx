@@ -4,14 +4,17 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { services } from "@/lib/data/services";
+import { services as defaultServices } from "@/lib/data/services";
+import { getIcon } from "@/lib/data/icons";
 
 interface MegaMenuProps {
   onMouseEnter: () => void;
   onMouseLeave: () => void;
+  services?: { slug: string; shortTitle: string; heroImage: string; iconName: string }[];
 }
 
-export function MegaMenu({ onMouseEnter, onMouseLeave }: MegaMenuProps) {
+export function MegaMenu({ onMouseEnter, onMouseLeave, services }: MegaMenuProps) {
+  const items = services ?? defaultServices;
   return (
     <motion.div
       className="absolute top-full left-0 right-0 z-50"
@@ -46,8 +49,8 @@ export function MegaMenu({ onMouseEnter, onMouseLeave }: MegaMenuProps) {
 
           {/* Service cards — compact horizontal layout */}
           <div className="grid grid-cols-6 gap-2">
-            {services.map((service, i) => {
-              const Icon = service.icon;
+            {items.map((service, i) => {
+              const Icon = getIcon(service.iconName);
               return (
                 <motion.div
                   key={service.slug}

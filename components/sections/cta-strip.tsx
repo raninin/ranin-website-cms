@@ -6,20 +6,15 @@ import { motion } from "framer-motion";
 import { ArrowRight, Phone } from "lucide-react";
 import { MagneticButton } from "@/components/animations/magnetic-button";
 import { Button } from "@/components/ui/button";
+import { defaultCTAStrip, type CTAStripData } from "@/lib/data/defaults/cta-strip";
 
-const ctaImages = [
-  "/images/27.png",
-  "/images/47.png",
-  "/images/52.png",
-  "/images/46.png",
-];
-
-export function CTAStrip() {
+export function CTAStrip({ data }: { data?: CTAStripData }) {
+  const d = data ?? defaultCTAStrip;
   return (
     <section className="relative overflow-hidden bg-ranin-navy">
       {/* ── Image Mosaic Background ─────────────────────────── */}
       <div className="absolute inset-0 grid grid-cols-2 lg:grid-cols-4">
-        {ctaImages.map((img, i) => (
+        {d.backgroundImages.map((img, i) => (
           <div key={img} className="relative overflow-hidden">
             <Image
               src={img}
@@ -51,16 +46,15 @@ export function CTAStrip() {
                 transition={{ duration: 0.7 }}
               >
                 <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-ranin-accent">
-                  Let&apos;s Work Together
+                  {d.label}
                 </span>
                 <h2 className="mt-4 font-display text-4xl text-white sm:text-5xl md:text-6xl lg:text-7xl">
-                  HAVE A PROJECT
+                  {d.heading}
                   <br />
-                  <span className="text-ranin-accent">IN MIND?</span>
+                  <span className="text-ranin-accent">{d.headingAccent}</span>
                 </h2>
                 <p className="mt-4 max-w-lg text-base text-white/60 md:text-lg">
-                  Get a tailored proposal within 24–48 hours. Our team is ready to
-                  deliver excellence.
+                  {d.description}
                 </p>
               </motion.div>
             </div>
@@ -74,32 +68,32 @@ export function CTAStrip() {
               transition={{ delay: 0.3, duration: 0.6 }}
             >
               <MagneticButton>
-                <Link href="/contact" className="block">
+                <Link href={d.ctaPrimary.href} className="block">
                   <Button
                     size="lg"
                     className="group h-14 w-full bg-ranin-accent px-8 text-sm font-semibold text-white hover:bg-ranin-accent/90"
                   >
-                    Request a Quote
+                    {d.ctaPrimary.label}
                     <ArrowRight className="ml-2 size-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </Link>
               </MagneticButton>
 
               <MagneticButton>
-                <a href="tel:+966133410000" className="block">
+                <a href={d.ctaSecondary.href} className="block">
                   <Button
                     variant="outline"
                     size="lg"
                     className="group h-14 w-full border-white/20 px-8 text-sm font-semibold text-white hover:border-white/40 hover:bg-white/5"
                   >
                     <Phone className="mr-2 size-4" />
-                    Call Us Now
+                    {d.ctaSecondary.label}
                   </Button>
                 </a>
               </MagneticButton>
 
               <p className="mt-2 text-center font-mono text-[10px] uppercase tracking-wider text-white/60">
-                Available Sun–Thu &middot; 8AM–5PM (AST)
+                {d.hours}
               </p>
             </motion.div>
           </div>
@@ -107,7 +101,7 @@ export function CTAStrip() {
 
         {/* Bottom image strip — peek through */}
         <div className="mt-16 flex gap-2 overflow-hidden px-6 lg:mt-24 lg:px-8">
-          {["/images/13.png", "/images/39.png", "/images/57.png", "/images/14.png"].map(
+          {d.bottomImages.map(
             (img, i) => (
               <motion.div
                 key={img}

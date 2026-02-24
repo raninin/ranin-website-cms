@@ -9,21 +9,13 @@ import { Button } from "@/components/ui/button";
 import { MagneticButton } from "@/components/animations/magnetic-button";
 import { SplitText } from "@/components/animations/split-text";
 import { SectionLabel } from "@/components/shared/section-label";
+import { defaultHero, type HeroData } from "@/lib/data/defaults/hero";
 
 /* ── Lazy-load Antigravity (Three.js — client only) ─────── */
 const Antigravity = dynamic(
   () => import("@/components/animations/antigravity"),
   { ssr: false }
 );
-
-/* ── Image strip data ────────────────────────────────────── */
-const heroImages = [
-  { src: "/images/14.png", label: "Oil & Gas" },
-  { src: "/images/27.png", label: "Construction" },
-  { src: "/images/41.png", label: "Petrochemical" },
-  { src: "/images/54.png", label: "Power" },
-  { src: "/images/56.png", label: "Our Team" },
-];
 
 /* ── Scroll Indicator ────────────────────────────────────── */
 function ScrollIndicator() {
@@ -48,7 +40,8 @@ function ScrollIndicator() {
 }
 
 /* ── Hero Section ────────────────────────────────────────── */
-export function Hero() {
+export function Hero({ data }: { data?: HeroData }) {
+  const d = data ?? defaultHero;
   const sectionRef = useRef<HTMLElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -69,7 +62,7 @@ export function Hero() {
       {/* ── Layer 0: Background image (very subtle atmosphere) ── */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/13.png"
+          src={d.backgroundImage}
           alt=""
           fill
           className="object-cover opacity-[0.50]"
@@ -119,7 +112,7 @@ export function Hero() {
           transition={{ delay: 0.4, duration: 0.7, ease: "easeOut" }}
         >
           <SectionLabel className="text-ranin-steel/80">
-            Since 2010 &middot; Kingdom of Saudi Arabia
+            {d.sectionLabel}
           </SectionLabel>
         </motion.div>
 
@@ -131,7 +124,7 @@ export function Hero() {
             stagger={0.07}
             yOffset={50}
           >
-            BUILDING TOMORROW&apos;S INDUSTRIAL LANDSCAPE
+            {d.heading}
           </SplitText>
         </div>
 
@@ -142,9 +135,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.5, duration: 0.8, ease: "easeOut" }}
         >
-          Comprehensive industrial services — from manpower and materials
-          to fabrication, maintenance, and beyond — powering Saudi
-          Arabia&apos;s infrastructure growth.
+          {d.subheading}
         </motion.p>
 
         {/* CTAs */}
@@ -159,7 +150,7 @@ export function Hero() {
               size="lg"
               className="cta-shimmer group h-12 bg-ranin-accent px-8 text-sm font-semibold tracking-wide text-white hover:bg-ranin-accent/90"
             >
-              Get a Quote
+              {d.ctaPrimary.label}
               <ArrowRight className="ml-2 size-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Button>
           </MagneticButton>
@@ -170,7 +161,7 @@ export function Hero() {
               size="lg"
               className="group h-12 border-white/15 px-8 text-sm font-semibold tracking-wide text-white/80 hover:border-white/30 hover:bg-white/5 hover:text-white"
             >
-              Explore Services
+              {d.ctaSecondary.label}
             </Button>
           </MagneticButton>
         </motion.div>
@@ -178,7 +169,7 @@ export function Hero() {
 
       {/* ── Layer 4: Bottom image strip (desktop) ─────────────── */}
       <motion.div
-        className="pointer-events-none relative z-10 hidden pb-16 lg:block"
+        className="pointer-events-auto relative z-10 hidden pb-16 lg:block"
         style={{ y: imageStripY }}
       >
         <motion.div
@@ -187,7 +178,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.4, duration: 0.8, ease: "easeOut" }}
         >
-          {heroImages.map((img, i) => (
+          {d.images.map((img, i) => (
             <motion.div
               key={img.label}
               className="group relative"

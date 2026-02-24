@@ -1,0 +1,159 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Typed Tables ───────────────────────────────────────────
+
+model Service {
+  id              Int                   @id @default(autoincrement())
+  slug            String                @unique
+  title           String
+  shortTitle      String
+  description     String
+  longDescription String
+  iconName        String
+  heroImage       String
+  sortOrder       Int                   @default(0)
+  features        ServiceFeature[]
+  featureGroups   ServiceFeatureGroup[]
+  images          ServiceImage[]
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+}
+
+model ServiceFeature {
+  id        Int     @id @default(autoincrement())
+  text      String
+  sortOrder Int     @default(0)
+  serviceId Int
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+}
+
+model ServiceFeatureGroup {
+  id        Int                         @id @default(autoincrement())
+  title     String
+  sortOrder Int                         @default(0)
+  serviceId Int
+  service   Service                     @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  details   ServiceFeatureGroupDetail[]
+}
+
+model ServiceFeatureGroupDetail {
+  id             Int                 @id @default(autoincrement())
+  text           String
+  sortOrder      Int                 @default(0)
+  featureGroupId Int
+  featureGroup   ServiceFeatureGroup @relation(fields: [featureGroupId], references: [id], onDelete: Cascade)
+}
+
+model ServiceImage {
+  id        Int     @id @default(autoincrement())
+  url       String
+  sortOrder Int     @default(0)
+  serviceId Int
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+}
+
+model Project {
+  id              Int                   @id @default(autoincrement())
+  slug            String                @unique
+  title           String
+  sector          String
+  location        String
+  description     String
+  longDescription String
+  image           String
+  heroImage       String
+  client          String
+  year            String
+  duration        String
+  status          String
+  sortOrder       Int                   @default(0)
+  highlights      ProjectHighlight[]
+  scope           ProjectScope[]
+  services        ProjectService[]
+  blogContent     ProjectBlogContent[]
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+}
+
+model ProjectBlogContent {
+  id        Int     @id @default(autoincrement())
+  heading   String
+  body      String
+  sortOrder Int     @default(0)
+  projectId Int
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model ProjectHighlight {
+  id        Int     @id @default(autoincrement())
+  text      String
+  sortOrder Int     @default(0)
+  projectId Int
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model ProjectScope {
+  id        Int                  @id @default(autoincrement())
+  title     String
+  sortOrder Int                  @default(0)
+  projectId Int
+  project   Project              @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  details   ProjectScopeDetail[]
+}
+
+model ProjectScopeDetail {
+  id        Int          @id @default(autoincrement())
+  text      String
+  sortOrder Int          @default(0)
+  scopeId   Int
+  scope     ProjectScope @relation(fields: [scopeId], references: [id], onDelete: Cascade)
+}
+
+model ProjectService {
+  id        Int     @id @default(autoincrement())
+  name      String
+  projectId Int
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Partner {
+  id        Int    @id @default(autoincrement())
+  name      String
+  logoUrl   String
+  row       Int    @default(1)
+  sortOrder Int    @default(0)
+}
+
+model Certification {
+  id        Int    @id @default(autoincrement())
+  title     String
+  subtitle  String
+  logoUrl   String
+  sortOrder Int    @default(0)
+}
+
+model CompanyInfo {
+  id          Int    @id @default(1)
+  address     String @default("")
+  phone       String @default("")
+  email       String @default("")
+  hours       String @default("")
+  mapEmbedUrl String @default("")
+  tagline     String @default("")
+  logoUrl     String @default("")
+}
+
+// ─── Generic JSON Store ─────────────────────────────────────
+
+model SiteContent {
+  id        String   @id
+  data      Json
+  updatedAt DateTime @updatedAt
+}
