@@ -26,8 +26,8 @@ export default function CmsPage() {
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    // Check if already authenticated
-    fetch("/api/cms/services")
+    // Check if already authenticated via auth cookie
+    fetch("/api/cms/auth")
       .then((r) => {
         setChecking(false);
         if (r.ok) setAuthenticated(true);

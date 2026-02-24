@@ -1,6 +1,15 @@
 import { NextResponse } from "next/server";
 import { CMS_PASSWORD, COOKIE_NAME } from "@/lib/cms-auth";
 
+export async function GET(request: Request) {
+  const cookieHeader = request.headers.get("cookie") ?? "";
+  const match = cookieHeader.match(new RegExp(`${COOKIE_NAME}=([^;]+)`));
+  if (match?.[1] === CMS_PASSWORD) {
+    return NextResponse.json({ authenticated: true });
+  }
+  return NextResponse.json({ authenticated: false }, { status: 401 });
+}
+
 export async function POST(request: Request) {
   const body = await request.json();
   const { password } = body;
