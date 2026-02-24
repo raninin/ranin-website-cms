@@ -18,7 +18,7 @@ export function CmsHeader({ onLogout }: Props) {
       </div>
       <button
         onClick={onLogout}
-        className="text-xs text-zinc-500 hover:text-red-400"
+        className="border border-zinc-700 px-3 py-1.5 text-xs text-zinc-400 transition-colors hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-400"
       >
         Sign Out
       </button>
