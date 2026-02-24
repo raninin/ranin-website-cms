@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
 import { verifyCmsAuth, unauthorizedResponse } from "@/lib/cms-auth";
 
@@ -27,5 +28,6 @@ export async function PUT(request: Request) {
     create: { id, data },
   });
 
+  revalidatePath("/", "layout");
   return NextResponse.json(content);
 }

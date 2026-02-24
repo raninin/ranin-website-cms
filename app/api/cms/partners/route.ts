@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
 import { verifyCmsAuth, unauthorizedResponse } from "@/lib/cms-auth";
 
@@ -22,6 +23,7 @@ export async function POST(request: Request) {
     },
   });
 
+  revalidatePath("/", "layout");
   return NextResponse.json(partner, { status: 201 });
 }
 
@@ -36,6 +38,7 @@ export async function PUT(request: Request) {
     data,
   });
 
+  revalidatePath("/", "layout");
   return NextResponse.json(partner);
 }
 
@@ -46,5 +49,6 @@ export async function DELETE(request: Request) {
   const id = parseInt(searchParams.get("id") ?? "0");
 
   await prisma.partner.delete({ where: { id } });
+  revalidatePath("/", "layout");
   return NextResponse.json({ success: true });
 }

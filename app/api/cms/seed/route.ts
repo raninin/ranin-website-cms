@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
 import { verifyCmsAuth, unauthorizedResponse } from "@/lib/cms-auth";
 import { services } from "@/lib/data/services";
@@ -164,6 +165,7 @@ export async function POST(request: Request) {
       await prisma.siteContent.create({ data: { id, data: data as object } });
     }
 
+    revalidatePath("/", "layout");
     return NextResponse.json({ success: true, message: "Database seeded successfully" });
   } catch (error) {
     console.error("Seed error:", error);

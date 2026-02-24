@@ -9,11 +9,11 @@ export function TrustBar({ data }: { data?: TrustBarData }) {
   const d = data ?? defaultTrustBar;
   return (
     <section className="relative z-10 border-y border-white/[0.06] bg-ranin-navy">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-y-8 px-6 py-10 md:grid-cols-3 md:gap-0 md:py-12 lg:py-14">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center px-6 py-10 gap-y-8 md:py-12 lg:py-14">
         {d.metrics.map((metric, i) => (
           <motion.div
             key={metric.label}
-            className="relative flex flex-col items-center text-center"
+            className="relative flex flex-1 basis-full flex-col items-center text-center md:basis-0"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.5 }}
