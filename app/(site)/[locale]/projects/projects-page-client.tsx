@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { Link } from "@/src/i18n/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, MapPin } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
@@ -19,6 +20,12 @@ interface Props {
 
 export default function ProjectsPageClient({ projects, pageContent }: Props) {
   const t = useTranslations();
+  const [activeSector, setActiveSector] = useState(0);
+
+  const filteredProjects =
+    activeSector === 0
+      ? projects
+      : projects.filter((p) => p.sector === pageContent.sectors[activeSector]);
 
   return (
     <main>
@@ -58,8 +65,9 @@ export default function ProjectsPageClient({ projects, pageContent }: Props) {
             {pageContent.sectors.map((sector, i) => (
               <button
                 key={sector}
+                onClick={() => setActiveSector(i)}
                 className={`border px-4 py-1.5 font-mono text-[10px] uppercase tracking-wider transition-all duration-300 ${
-                  i === 0
+                  activeSector === i
                     ? "border-ranin-accent bg-ranin-accent/10 text-ranin-accent"
                     : "border-white/[0.08] text-ranin-steel hover:border-ranin-accent/30 hover:text-white"
                 }`}
@@ -75,14 +83,21 @@ export default function ProjectsPageClient({ projects, pageContent }: Props) {
       <section className="relative overflow-hidden bg-ranin-light py-24 lg:py-32">
         <SubtlePatternBg src="/images/41.png" opacity={0.09} />
         <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project, i) => (
+          <AnimatePresence mode="wait">
+          <motion.div
+            key={activeSector}
+            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            {filteredProjects.map((project, i) => (
               <motion.div
                 key={project.title}
                 className="group overflow-hidden border border-ranin-navy/[0.06] bg-white transition-all duration-500 hover:-translate-y-1 hover:shadow-xl"
                 initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: (i % 3) * 0.1, duration: 0.6 }}
               >
                 <Link href={`/projects/${project.slug}`}>
@@ -135,7 +150,8 @@ export default function ProjectsPageClient({ projects, pageContent }: Props) {
                 </Link>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 

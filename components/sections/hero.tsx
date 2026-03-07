@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { Link } from "@/src/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
@@ -104,7 +105,7 @@ export function Hero({ data }: { data?: HeroData }) {
 
       {/* ── Layer 3: Content ──────────────────────────────────── */}
       <motion.div
-        className="pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-center px-6"
+        className="pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-center px-6 pt-24 lg:pt-28"
         style={{ opacity: contentOpacity, y: contentY }}
       >
         {/* Label */}
@@ -148,23 +149,27 @@ export function Hero({ data }: { data?: HeroData }) {
           transition={{ delay: 1.9, duration: 0.6, ease: "easeOut" }}
         >
           <MagneticButton>
-            <Button
-              size="lg"
-              className="cta-shimmer group h-12 bg-ranin-accent px-8 text-sm font-semibold tracking-wide text-white hover:bg-ranin-accent/90"
-            >
-              {d.ctaPrimary.label}
-              <ArrowRight className="ml-2 size-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Button>
+            <Link href="/contact">
+              <Button
+                size="lg"
+                className="cta-shimmer group h-12 bg-ranin-accent px-8 text-sm font-semibold tracking-wide text-white hover:bg-ranin-accent/90"
+              >
+                {d.ctaPrimary.label}
+                <ArrowRight className="ml-2 size-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Button>
+            </Link>
           </MagneticButton>
 
           <MagneticButton>
-            <Button
-              variant="outline"
-              size="lg"
-              className="group h-12 border-white/15 px-8 text-sm font-semibold tracking-wide text-white/80 hover:border-white/30 hover:bg-white/5 hover:text-white"
-            >
-              {d.ctaSecondary.label}
-            </Button>
+            <Link href="/services">
+              <Button
+                variant="outline"
+                size="lg"
+                className="group h-12 border-white/15 px-8 text-sm font-semibold tracking-wide text-white/80 hover:border-white/30 hover:bg-white/5 hover:text-white"
+              >
+                {d.ctaSecondary.label}
+              </Button>
+            </Link>
           </MagneticButton>
         </motion.div>
       </motion.div>
