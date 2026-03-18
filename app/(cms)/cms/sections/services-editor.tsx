@@ -119,7 +119,7 @@ export function ServicesEditor() {
 
   const fetchServices = async () => {
     try {
-      const res = await fetch("/api/cms/services");
+      const res = await fetch("/api/cms/services", { credentials: "include" });
       const data = await res.json();
       setServices(data);
     } catch {}
@@ -160,6 +160,7 @@ export function ServicesEditor() {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: editingId, ...form }),
+          credentials: "include",
         });
         setStatus(res.ok ? "saved" : "error");
       } else {
@@ -167,6 +168,7 @@ export function ServicesEditor() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(form),
+          credentials: "include",
         });
         setStatus(res.ok ? "saved" : "error");
       }
@@ -181,7 +183,7 @@ export function ServicesEditor() {
 
   const handleDelete = async (id: number) => {
     if (!confirm("Delete this service? This cannot be undone.")) return;
-    await fetch(`/api/cms/services?id=${id}`, { method: "DELETE" });
+    await fetch(`/api/cms/services?id=${id}`, { method: "DELETE", credentials: "include" });
     if (editingId === id) handleCancel();
     await fetchServices();
   };

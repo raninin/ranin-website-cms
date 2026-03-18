@@ -10,7 +10,12 @@ export function verifyCmsAuth(request: Request): boolean {
 
   const cookieHeader = request.headers.get("cookie") ?? "";
   const match = cookieHeader.match(new RegExp(`${COOKIE_NAME}=([^;]+)`));
-  return match?.[1] === CMS_PASSWORD;
+  if (!match?.[1]) return false;
+  try {
+    return decodeURIComponent(match[1]) === CMS_PASSWORD;
+  } catch {
+    return match[1] === CMS_PASSWORD;
+  }
 }
 
 export function unauthorizedResponse() {

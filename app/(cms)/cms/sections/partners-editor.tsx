@@ -37,7 +37,7 @@ export function PartnersEditor() {
 
   const fetchPartners = async () => {
     try {
-      const res = await fetch("/api/cms/partners");
+      const res = await fetch("/api/cms/partners", { credentials: "include" });
       const data = await res.json();
       setPartners(data);
     } catch {}
@@ -62,6 +62,7 @@ export function PartnersEditor() {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: editingId, ...form }),
+          credentials: "include",
         });
         setStatus(res.ok ? "saved" : "error");
       } else {
@@ -69,6 +70,7 @@ export function PartnersEditor() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(form),
+          credentials: "include",
         });
         setStatus(res.ok ? "saved" : "error");
       }
@@ -83,7 +85,7 @@ export function PartnersEditor() {
 
   const handleDelete = async (id: number) => {
     if (!confirm("Delete this partner?")) return;
-    await fetch(`/api/cms/partners?id=${id}`, { method: "DELETE" });
+    await fetch(`/api/cms/partners?id=${id}`, { method: "DELETE", credentials: "include" });
     await fetchPartners();
   };
 

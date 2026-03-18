@@ -43,7 +43,7 @@ export function CompanyInfoEditor() {
   const [status, setStatus] = useState<"" | "saved" | "error">("");
 
   useEffect(() => {
-    fetch("/api/cms/company-info")
+    fetch("/api/cms/company-info", { credentials: "include" })
       .then((r) => r.json())
       .then((result) => {
         if (result) {
@@ -76,6 +76,7 @@ export function CompanyInfoEditor() {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
+        credentials: "include",
       });
       setStatus(res.ok ? "saved" : "error");
     } catch {

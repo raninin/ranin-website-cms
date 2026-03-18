@@ -36,7 +36,7 @@ export function useSiteContent<T>(sectionId: string, defaultValue: T) {
   const [status, setStatus] = useState<"" | "saved" | "error">("");
 
   useEffect(() => {
-    fetch(`/api/cms/site-content?id=${sectionId}`)
+    fetch(`/api/cms/site-content?id=${sectionId}`, { credentials: "include" })
       .then((r) => r.json())
       .then((result) => {
         if (result?.data) {
@@ -55,6 +55,7 @@ export function useSiteContent<T>(sectionId: string, defaultValue: T) {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: sectionId, data }),
+        credentials: "include",
       });
       setStatus(res.ok ? "saved" : "error");
     } catch {

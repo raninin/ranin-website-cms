@@ -174,7 +174,7 @@ export function ProjectsEditor() {
 
   const fetchProjects = async () => {
     try {
-      const res = await fetch("/api/cms/projects");
+      const res = await fetch("/api/cms/projects", { credentials: "include" });
       const data = await res.json();
       setProjects(data);
     } catch {}
@@ -215,6 +215,7 @@ export function ProjectsEditor() {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: editingId, ...form }),
+          credentials: "include",
         });
         setStatusMsg(res.ok ? "saved" : "error");
       } else {
@@ -222,6 +223,7 @@ export function ProjectsEditor() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(form),
+          credentials: "include",
         });
         setStatusMsg(res.ok ? "saved" : "error");
       }
@@ -236,7 +238,7 @@ export function ProjectsEditor() {
 
   const handleDelete = async (id: number) => {
     if (!confirm("Delete this project? This cannot be undone.")) return;
-    await fetch(`/api/cms/projects?id=${id}`, { method: "DELETE" });
+    await fetch(`/api/cms/projects?id=${id}`, { method: "DELETE", credentials: "include" });
     if (editingId === id) handleCancel();
     await fetchProjects();
   };

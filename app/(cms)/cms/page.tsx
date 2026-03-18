@@ -27,7 +27,7 @@ export default function CmsPage() {
 
   useEffect(() => {
     // Check if already authenticated via auth cookie
-    fetch("/api/cms/auth")
+    fetch("/api/cms/auth", { credentials: "include" })
       .then((r) => {
         setChecking(false);
         if (r.ok) setAuthenticated(true);
@@ -42,6 +42,7 @@ export default function CmsPage() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password }),
+      credentials: "include",
     });
     if (res.ok) {
       setAuthenticated(true);
@@ -51,7 +52,7 @@ export default function CmsPage() {
   };
 
   const handleLogout = async () => {
-    await fetch("/api/cms/auth", { method: "DELETE" });
+    await fetch("/api/cms/auth", { method: "DELETE", credentials: "include" });
     setAuthenticated(false);
     setPassword("");
   };

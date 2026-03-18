@@ -37,7 +37,7 @@ export function CertificationsEditor() {
 
   const fetchCerts = async () => {
     try {
-      const res = await fetch("/api/cms/certifications");
+      const res = await fetch("/api/cms/certifications", { credentials: "include" });
       const data = await res.json();
       setCerts(data);
     } catch {}
@@ -69,6 +69,7 @@ export function CertificationsEditor() {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: editingId, ...form }),
+          credentials: "include",
         });
         setStatus(res.ok ? "saved" : "error");
       } else {
@@ -76,6 +77,7 @@ export function CertificationsEditor() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(form),
+          credentials: "include",
         });
         setStatus(res.ok ? "saved" : "error");
       }
@@ -90,7 +92,7 @@ export function CertificationsEditor() {
 
   const handleDelete = async (id: number) => {
     if (!confirm("Delete this certification?")) return;
-    await fetch(`/api/cms/certifications?id=${id}`, { method: "DELETE" });
+    await fetch(`/api/cms/certifications?id=${id}`, { method: "DELETE", credentials: "include" });
     await fetchCerts();
   };
 

@@ -4,7 +4,15 @@ import { CMS_PASSWORD, COOKIE_NAME } from "@/lib/cms-auth";
 export async function GET(request: Request) {
   const cookieHeader = request.headers.get("cookie") ?? "";
   const match = cookieHeader.match(new RegExp(`${COOKIE_NAME}=([^;]+)`));
-  if (match?.[1] === CMS_PASSWORD) {
+  let authenticated = false;
+  if (match?.[1]) {
+    try {
+      authenticated = decodeURIComponent(match[1]) === CMS_PASSWORD;
+    } catch {
+      authenticated = match[1] === CMS_PASSWORD;
+    }
+  }
+  if (authenticated) {
     return NextResponse.json({ authenticated: true });
   }
   return NextResponse.json({ authenticated: false }, { status: 401 });
